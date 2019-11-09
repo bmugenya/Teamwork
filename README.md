@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.com/bmugenya/Teamwork.svg?branch=develop)](https://travis-ci.com/bmugenya/Teamwork)
-
-[![Coverage Status](https://coveralls.io/repos/github/bmugenya/Teamwork/badge.svg?branch=develop)](https://coveralls.io/github/bmugenya/Teamwork?branch=develop)
+[![Build Status](https://travis-ci.com/bmugenya/Teamwork.svg?branch=develop)](https://travis-ci.com/bmugenya/Teamwork)          [![Coverage Status](https://coveralls.io/repos/github/bmugenya/Teamwork/badge.svg?branch=develop)](https://coveralls.io/github/bmugenya/Teamwork?branch=develop)
 
 # Teamwork
 Teamwork is an ​ internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.
@@ -16,3 +14,5 @@ Method | Endpoint | Function |
 |DELETE| `/api/v1/admin/article_id` | delete flaged article. |
 |DELETE| `/api/v1/admin/gifs_id` | delete flaged gifs. |
 |DELETE| `/api/v1/admin/comment_id` | delete flaged comment. |
+|EMPLOYEE| . |   .   |
+|POST| `/api/v1/articles` | create an article. |
