@@ -22,6 +22,6 @@ app.get('/api/v1/getadmin',auth, model.getAdmin)
 
 //USER
 app.post('/api/v1/auth/signin', model.employeeLogin)
-
+app.post('/api/v1/articles',auth, model.newArticle)
 
 module.exports = app;
