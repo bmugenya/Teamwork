@@ -161,6 +161,40 @@ const employeeLogin = (request, res, next) => {
 
 
 
+
+const newArticle = (request, response) => {
+  const { title, article, employee_id } = request.body
+
+
+  pool.query('INSERT INTO Article (title, article, employee_id) VALUES ($1, $2,$3)', [title, article, employee_id], error => {
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+    pool.query("select currval(pg_get_serial_sequence('Article','id')) as article_id",function(error,results,fields){
+    if(error) throw error;
+
+    const article_id = results.rows[0].article_id
+    const now = new Date()
+   response.status(201).json({
+     status: 'success',
+     data :{
+       message: 'Article successfully posted' ,
+       articleId: article_id,
+       createdOn:now,
+       title:title
+     }
+   })
+
+    })
+      })
+
+  }
+
+
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -168,4 +202,5 @@ module.exports = {
     logout,
     addEmployee,
     employeeLogin,
+    newArticle,
 }
