@@ -3,10 +3,10 @@ const app = require('../../app.js');
 const expect = require('chai').expect
 
 
-describe('POST /api/v1/auth/signin', function() {
+describe('POST /api/v1/auth/create-admin', function() {
     it('Should register an admin user', function(done) {
 
-        request(app).post('/api/v1/auth/signin')
+        request(app).post('/api/v1/auth/create-admin')
         .send({email:'test@email.com', password:'test' })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -24,14 +24,11 @@ describe('POST /api/v1/auth/signin', function() {
 });
 
 
-
-
-
-describe('POST /api/v1/login', function() {
+describe('POST /api/v1/auth/admin/signin', function() {
 
    it('Should login an admin user', function(done) {
 
-        request(app).post('/api/v1/login')
+        request(app).post('/api/v1/auth/admin/signin')
         .send({username:'test@email.com', password:'test' })
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -51,8 +48,8 @@ describe('GET /api/v1/getadmin', function() {
   var token;
 
   before(function(done) {
-    request(app).post('/api/v1/login')
-      .send({username:'test@email.com', password:'test' })
+    request(app).post('/api/v1/auth/admin/signin')
+      .send({username:'trial@email.com', password:'12345' })
       .end(function(error, response) {
         if(error) return done(error);
         token = response.body.token
@@ -63,7 +60,7 @@ describe('GET /api/v1/getadmin', function() {
 
     it('Should be able to get admin user', function(done) {
      request(app).get('/api/v1/getadmin')
-      .set('authorization', 'Bearer ' +  token)
+      .set('Authorization', 'Bearer ' +  token)
       .expect(200)
        .expect('Content-Type', /json/)
         .end(function(error, response){
@@ -74,3 +71,72 @@ describe('GET /api/v1/getadmin', function() {
     });
 
 });
+
+
+
+
+describe('POST /api/v1/auth/create-user', function() {
+        var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/admin/signin')
+      .send({username:'trial@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Should be able to register an employee', function(done) {
+
+
+        request(app).post('/api/v1/auth/create-user')
+        .set('Authorization', 'Bearer ' +  token)
+        .set('Accept', 'application/json')
+        .send({
+            firstName:'BrianT',
+            lastName:'Mugenya',
+            email:'employee1@email.com',
+            password:'12345',
+            gender:'Male',
+            jobRole:'Security',
+            department:'IT',
+            address:'kenya'
+        })
+
+        .expect('Content-Type', /json/)
+        .expect(201)
+
+        .end(function(error, response){
+            if(error) return done(error);
+               expect(response.body.status).to.be.equal('success');
+               expect(response.body.data.message).to.be.equal('User account successfully created');
+            done();
+        });
+
+    });
+
+});
+
+
+describe('POST /api/v1/auth/signin', function() {
+
+   it('Should login an employee user', function(done) {
+
+        request(app).post('/api/v1/auth/signin')
+        .send({username:'employee1@email.com', password:'12345' })
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+
+        .end(function(error, response){
+            if(error) return done(error);
+            done();
+        });
+
+    });
+
+});
+

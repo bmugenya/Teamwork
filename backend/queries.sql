@@ -4,5 +4,15 @@ CREATE TABLE Admin (
   password VARCHAR(255) NOT NULL
 );
 
-INSERT INTO Admin (email, password)
-VALUES  ('mugenya@email.com', '12345');
+
+CREATE TABLE Employee (
+  ID SERIAL PRIMARY KEY,
+  firstName VARCHAR(255) NOT NULL,
+  lastName VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  gender VARCHAR(255) NOT NULL,
+  jobRole VARCHAR(255) NOT NULL,
+  department VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL
+);
