@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.com/bmugenya/Teamwork.svg?branch=develop)](https://travis-ci.com/bmugenya/Teamwork)
 
+[![Coverage Status](https://coveralls.io/repos/github/bmugenya/Teamwork/badge.svg?branch=develop)](https://coveralls.io/github/bmugenya/Teamwork?branch=develop)
+
 # Teamwork
 Teamwork is an ​ internal social network for employees of an organization. The goal of this application is to facilitate more interaction between colleagues and promote team bonding.
 
