@@ -16,3 +16,13 @@ CREATE TABLE Employee (
   department VARCHAR(255) NOT NULL,
   address VARCHAR(255) NOT NULL
 );
+
+
+CREATE TABLE Article (
+  ID SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  article VARCHAR(255) NOT NULL,
+  createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
+  employee_id INT REFERENCES Employee(ID) NOT NULL
+
+);
