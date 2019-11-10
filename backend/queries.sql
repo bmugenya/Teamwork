@@ -26,3 +26,15 @@ CREATE TABLE Article (
   employee_id INT REFERENCES Employee(ID) NOT NULL
 
 );
+
+
+
+CREATE TABLE Gifs (
+  ID SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  imageUrl VARCHAR(255) NOT NULL,
+  createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
+  employee_id INT REFERENCES Employee(ID) NOT NULL
+
+);
+
