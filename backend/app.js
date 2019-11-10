@@ -35,5 +35,5 @@ app.post('/api/v1/auth/signin', model.employeeLogin)
 app.post('/api/v1/articles',auth, model.newArticle)
 app.post('/api/v1/gifs',auth,multerUploads, model.newGif)
 app.patch('/api/v1/articles/:id',auth, model.updateArticle)
-
+app.delete('/api/v1/articles/:id',auth, model.deleteArticle)
 module.exports = app;

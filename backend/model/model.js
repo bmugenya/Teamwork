@@ -270,7 +270,7 @@ const updateArticle = (request, response) => {
     if(results.rowCount){
 
 
-   response.status(201).json({
+   response.status(200).json({
      status: 'success',
      data :{
        message: 'Article successfully updated',
@@ -292,6 +292,44 @@ const updateArticle = (request, response) => {
 
 
 
+const deleteArticle = (request, response) => {
+
+  const articleId = parseInt(request.params.id)
+  const { employee_id }  = request.body
+
+
+  pool.query('DELETE FROM Article WHERE id = $1 AND employee_id = $2', [articleId, employee_id], (error,results) => {
+
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+    if(results.rowCount){
+
+
+   response.status(200).json({
+     status: 'success',
+     data :{
+       message: 'Article successfully deleted'
+
+     }
+   })
+}else{
+     response.status(400).json({
+     status: 'Article NOT FOUND',
+   })
+}
+
+    })
+
+
+  }
+
+
+
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -302,4 +340,5 @@ module.exports = {
     newArticle,
     newGif,
     updateArticle,
+    deleteArticle,
 }
