@@ -1,5 +1,44 @@
 const request = require('supertest');
 const app = require('../../app.js');
+const expect = require('chai').expect
+
+
+
+
+
+
+const multer = require('../../middleware/multer')
+
+
+const multerUploads = multer.multerUploads
+
+
+
+const dataUri = multer.dataUri
+
+
+
+const config = require('../../config/cloudinaryConfig')
+
+const uploader = config.uploader
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 describe('POST /api/v1/auth/create-admin', function() {
@@ -182,3 +221,54 @@ describe('POST /api/v1/articles', function() {
     });
 
 });
+
+
+
+
+
+
+
+
+
+// describe('POST /api/v1/gifs', function() {
+//   var token;
+
+//   before(function(done) {
+//     request(app).post('/api/v1/auth/signin')
+//       .send({username:'employee1@email.com', password:'12345' })
+//       .end(function(error, response) {
+//         if(error) return done(error);
+//         token = response.body.token
+//         done();
+//       });
+
+//   });
+
+
+
+//     it('Should be able to create an gif', function(done) {
+
+
+//         request(app).post('/api/v1/gifs')
+//         .set('Authorization', 'Bearer ' +  token)
+//         .set('Accept', 'multipart/form-data')
+
+
+//         .send({
+//                 image:"/home/mugz/Pictures/kapow.png",
+//                 title:"Nindo way",
+//                 employee_id:13
+//             })
+
+//         .expect('Content-Type', /form-data/)
+//         .expect(201)
+
+//         .end(function(error, response){
+//             if(error) return done(error);
+
+//             done();
+//         });
+
+//     });
+
+// });
