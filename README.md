@@ -17,6 +17,8 @@ Method | Endpoint | Function |
 |EMPLOYEE| . |   .   |
 |POST| `/api/v1/articles` | create an article. |
 |POST| `/api/v1/gifs` | create a gif. |
-|PATCH| `/api/v1/articles/:id` | Edit an article. |
-|DELETE| `/api/v1/articles/:id` | Delete an article. |
-|DELETE| `/api/v1/gifs/:id` | Delete a gif. |
+|PATCH| `/api/v1/articles/<articleId>` | Edit an article. |
+|DELETE| `/api/v1/articles/<articleId>` | Delete an article. |
+|DELETE| `/api/v1/gifs/<gifId>` | Delete a gif. |
+|POST| `/api/v1/articles/<articleId>/comment` | comment on an article. |
+
