@@ -505,6 +505,20 @@ const viewArticle = (request, response) => {
   })
 }
 
+const viewGif = (request, response) => {
+
+  const gifId = parseInt(request.params.id)
+  pool.query('SELECT * FROM Gifs WHERE id = $1', [gifId], (error, results) => {
+    if (error) {
+      response.status(400).json({
+          error:error
+      });
+    }
+
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -520,5 +534,6 @@ module.exports = {
     commentArticle,
     commentGif,
     feed,
-    viewArticle
+    viewArticle,
+    viewGif
 }

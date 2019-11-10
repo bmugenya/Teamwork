@@ -489,3 +489,36 @@ describe('GET /api/v1/articles/articleId', function() {
     });
 
 });
+
+
+
+
+
+
+describe('GET /api/v1/gifs/gifId', function() {
+  var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/signin')
+      .send({username:'employee1@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Should be able to get a specific gif', function(done) {
+     request(app).get('/api/v1/gifs/' + 2)
+      .set('Authorization', 'Bearer ' +  token)
+      .expect(200)
+       .expect('Content-Type', /json/)
+        .end(function(error, response){
+            if(error) return done(error);
+            done();
+        });
+
+    });
+
+});
