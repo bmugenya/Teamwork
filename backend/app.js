@@ -37,5 +37,7 @@ app.post('/api/v1/gifs',auth,multerUploads, model.newGif)
 app.patch('/api/v1/articles/:id',auth, model.updateArticle)
 app.delete('/api/v1/articles/:id',auth, model.deleteArticle)
 app.delete('/api/v1/gifs/:id',auth, model.deleteGif)
+app.post('/api/v1/articles/:id/comment',auth, model.commentArticle)
+
 
 module.exports = app;
