@@ -41,3 +41,11 @@ CREATE TABLE CommentArticle (
   employee_id INT REFERENCES Employee(ID),
   article_id INT REFERENCES Article(ID)
 );
+
+CREATE TABLE CommentGif (
+  ID SERIAL PRIMARY KEY,
+  comment VARCHAR(255) NOT NULL,
+  createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
+  employee_id INT REFERENCES Employee(ID),
+  gif_id INT REFERENCES Gifs(ID)
+);
