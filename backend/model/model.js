@@ -477,6 +477,20 @@ const commentGif = (request, response) => {
 
 }
 
+
+
+const feed = (request, response) => {
+  pool.query('SELECT * FROM Article ORDER BY id DESC', (error, results) => {
+    if (error) {
+      response.status(400).json({
+          error:error
+      });
+    }
+
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -491,4 +505,5 @@ module.exports = {
     deleteGif,
     commentArticle,
     commentGif,
+    feed
 }

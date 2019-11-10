@@ -22,4 +22,5 @@ Method | Endpoint | Function |
 |DELETE| `/api/v1/gifs/<gifId>` | Delete a gif. |
 |POST| `/api/v1/articles/<articleId>/comment` | comment on an article. |
 |POST| `/api/v1/gifs/<gifId>/comment` | comment on a gif. |
+|GET| `/api/v1/feed` | view all articles. |
 

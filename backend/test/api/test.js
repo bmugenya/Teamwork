@@ -428,3 +428,32 @@ describe('POST /api/v1/gifs/:id/comment', function() {
     });
 
 });
+
+
+describe('GET /api/v1/feed', function() {
+  var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/signin')
+      .send({username:'employee1@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Should be able to get all aticles in descending order', function(done) {
+     request(app).get('/api/v1/feed')
+      .set('Authorization', 'Bearer ' +  token)
+      .expect(200)
+       .expect('Content-Type', /json/)
+        .end(function(error, response){
+            if(error) return done(error);
+            done();
+        });
+
+    });
+
+});
