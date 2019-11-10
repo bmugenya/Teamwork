@@ -23,4 +23,5 @@ Method | Endpoint | Function |
 |POST| `/api/v1/articles/<articleId>/comment` | comment on an article. |
 |POST| `/api/v1/gifs/<gifId>/comment` | comment on a gif. |
 |GET| `/api/v1/feed` | view all articles. |
+|GET| `/api/v1/article/<articleId>` | view a specific article. |
 
