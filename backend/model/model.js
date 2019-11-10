@@ -249,6 +249,49 @@ const newGif = (request, response) => {
 
 
 
+
+const updateArticle = (request, response) => {
+
+  const articleId = parseInt(request.params.id)
+
+
+  const { title, article,employee_id } = request.body
+
+
+  pool.query('UPDATE Article SET title = $1, article = $2 WHERE id = $3 AND employee_id = $4',
+    [title, article,articleId, employee_id], (error,results) => {
+
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+    if(results.rowCount){
+
+
+   response.status(201).json({
+     status: 'success',
+     data :{
+       message: 'Article successfully updated',
+       title: title,
+       article: article
+     }
+   })
+}else{
+     response.status(400).json({
+     status: 'NOT ALLOWED',
+   })
+}
+
+    })
+
+
+  }
+
+
+
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -258,4 +301,5 @@ module.exports = {
     employeeLogin,
     newArticle,
     newGif,
+    updateArticle,
 }
