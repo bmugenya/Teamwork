@@ -21,4 +21,5 @@ Method | Endpoint | Function |
 |DELETE| `/api/v1/articles/<articleId>` | Delete an article. |
 |DELETE| `/api/v1/gifs/<gifId>` | Delete a gif. |
 |POST| `/api/v1/articles/<articleId>/comment` | comment on an article. |
+|POST| `/api/v1/gifs/<gifId>/comment` | comment on a gif. |
 
