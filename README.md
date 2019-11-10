@@ -19,3 +19,4 @@ Method | Endpoint | Function |
 |POST| `/api/v1/gifs` | create a gif. |
 |PATCH| `/api/v1/articles/:id` | Edit an article. |
 |DELETE| `/api/v1/articles/:id` | Delete an article. |
+|DELETE| `/api/v1/gifs/:id` | Delete a gif. |
