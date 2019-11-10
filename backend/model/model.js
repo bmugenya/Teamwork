@@ -426,6 +426,57 @@ const commentArticle = (request, response) => {
 
 
 
+
+
+
+const commentGif = (request, response) => {
+
+  const gifId = parseInt(request.params.id)
+  const { comment,employee_id } = request.body
+
+    pool.query('SELECT title FROM Gifs WHERE id = $1',
+     [gifId], (error, results) => {
+    if (error) {
+      response.status(400).json({
+          error:error
+      });
+    }
+
+   if(results.rows[0]){
+
+  pool.query('INSERT INTO CommentGif (comment,employee_id,gif_id) VALUES  ($1, $2,$3)',
+    [comment,employee_id,gifId], error => {
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+
+
+   const now = new Date()
+   response.status(201).json({
+     status: 'success',
+     data :{
+       message: 'Comment successfully created',
+       createdOn:now,
+       gifTitle: results.rows[0].title,
+       comment:comment
+     }
+   })
+
+    })
+}else{
+
+     response.status(400).json({
+     message: 'Gif cannot be found',
+
+   })
+}
+})
+
+}
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -439,4 +490,5 @@ module.exports = {
     deleteArticle,
     deleteGif,
     commentArticle,
+    commentGif,
 }
