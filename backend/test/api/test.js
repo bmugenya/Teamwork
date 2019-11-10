@@ -353,3 +353,39 @@ describe('DELETE /api/v1/gifs/:id', function() {
 });
 
 
+
+
+describe('POST /api/v1/articles/:id/comment', function() {
+  var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/signin')
+      .send({username:'employee1@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Should be able to comment on an article', function(done) {
+
+        request(app).post('/api/v1/articles/'+ 1 +'/comment')
+        .set('Authorization', 'Bearer ' +  token)
+        .set('Accept', 'application/json')
+        .send({ comment:"ninja way", employee_id:11 })
+
+        .expect('Content-Type', /json/)
+        .expect(201)
+
+        .end(function(error, response){
+            if(error) return done(error);
+               expect(response.body.status).to.be.equal('success');
+               expect(response.body.data.message).to.be.equal('Comment successfully created');
+            done();
+        });
+
+    });
+
+});
