@@ -3,44 +3,6 @@ const app = require('../../app.js');
 const expect = require('chai').expect
 
 
-
-
-
-
-const multer = require('../../middleware/multer')
-
-
-const multerUploads = multer.multerUploads
-
-
-
-const dataUri = multer.dataUri
-
-
-
-const config = require('../../config/cloudinaryConfig')
-
-const uploader = config.uploader
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 describe('POST /api/v1/auth/create-admin', function() {
     it('Should register an admin user', function(done) {
 
@@ -272,3 +234,47 @@ describe('POST /api/v1/articles', function() {
 //     });
 
 // });
+
+
+
+
+describe('POST /api/v1/articles/:id', function() {
+  var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/signin')
+      .send({username:'employee1@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Should be able to update an article', function(done) {
+
+
+        request(app).patch('/api/v1/articles/' + 1)
+        .set('Authorization', 'Bearer ' +  token)
+        .set('Accept', 'application/json')
+        .send({
+                title:"update update update",
+                article:"My nindo way is to give my best till the very end",
+                employee_id:12
+            })
+
+        .expect('Content-Type', /json/)
+        .expect(201)
+
+        .end(function(error, response){
+            if(error) return done(error);
+               expect(response.body.status).to.be.equal('success');
+               expect(response.body.data.message).to.be.equal('Article successfully updated');
+            done();
+        });
+
+    });
+
+});
+
