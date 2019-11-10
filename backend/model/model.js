@@ -330,6 +330,52 @@ const deleteArticle = (request, response) => {
 
 
 
+
+
+
+
+const deleteGif = (request, response) => {
+
+  const articleId = parseInt(request.params.id)
+  const { employee_id }  = request.body
+
+
+  pool.query('DELETE FROM Gifs WHERE id = $1 AND employee_id = $2', [articleId, employee_id], (error,results) => {
+
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+    if(results.rowCount){
+
+
+   response.status(200).json({
+     status: 'success',
+     data :{
+       message: 'gif post successfully deleted'
+
+     }
+   })
+}else{
+     response.status(400).json({
+     status: 'Article NOT FOUND',
+   })
+}
+
+    })
+
+
+  }
+
+
+
+
+
+
+
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -341,4 +387,5 @@ module.exports = {
     newGif,
     updateArticle,
     deleteArticle,
+    deleteGif,
 }
