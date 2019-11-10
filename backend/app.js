@@ -40,4 +40,5 @@ app.delete('/api/v1/gifs/:id',auth, model.deleteGif)
 app.post('/api/v1/articles/:id/comment',auth, model.commentArticle)
 app.post('/api/v1/gifs/:id/comment',auth, model.commentGif)
 app.get('/api/v1/feed',auth, model.feed)
+app.get('/api/v1/articles/:id',auth, model.viewArticle)
 module.exports = app;
