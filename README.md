@@ -16,3 +16,5 @@ Method | Endpoint | Function |
 |DELETE| `/api/v1/admin/comment_id` | delete flaged comment. |
 |EMPLOYEE| . |   .   |
 |POST| `/api/v1/articles` | create an article. |
+|POST| `/api/v1/gifs` | create a gif. |
+|PATCH| `/api/v1/articles/:id` | Edit an article. |
