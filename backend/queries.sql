@@ -24,10 +24,7 @@ CREATE TABLE Article (
   article VARCHAR(255) NOT NULL,
   createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
   employee_id INT REFERENCES Employee(ID) NOT NULL
-
 );
-
-
 
 CREATE TABLE Gifs (
   ID SERIAL PRIMARY KEY,
@@ -35,6 +32,12 @@ CREATE TABLE Gifs (
   imageUrl VARCHAR(255) NOT NULL,
   createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
   employee_id INT REFERENCES Employee(ID) NOT NULL
-
 );
 
+CREATE TABLE CommentArticle (
+  ID SERIAL PRIMARY KEY,
+  comment VARCHAR(255) NOT NULL,
+  createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
+  employee_id INT REFERENCES Employee(ID),
+  article_id INT REFERENCES Article(ID)
+);
