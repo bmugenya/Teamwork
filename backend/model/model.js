@@ -1,7 +1,16 @@
  const { pool } = require('../db_con')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const multer = require('../middleware/multer')
 
+const config = require('../config/cloudinaryConfig')
+const multerUploads = multer.multerUploads
+
+const uploader = config.uploader
+const cloudinaryConfig = config.cloudinaryConfig
+
+
+const dataUri = multer.dataUri
 
 const saltRounds = 10;
 
@@ -195,6 +204,51 @@ const newArticle = (request, response) => {
 
 
 
+const newGif = (request, response) => {
+
+  const file = dataUri(request).content;
+  const title = request.body.title;
+  const employee_id = request.body.employee_id
+
+  return uploader.upload(file).then((result) => {
+    const image = result.url;
+
+
+  pool.query('INSERT INTO Gifs (imageUrl , title,employee_id) VALUES ($1, $2,$3)', [image, title,employee_id], error => {
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+    pool.query("select currval(pg_get_serial_sequence('Gifs','id')) as gif_id",function(error,results,fields){
+    if(error) throw error;
+
+    const gif_id = results.rows[0].gif_id
+    const now = new Date()
+
+   response.status(201).json({
+     status: 'success',
+     data : {
+       gifId: gif_id,
+       message: 'GIF image successfully posted',
+       createdOn:now,
+       title:title,
+       imageUrl:image
+
+      }
+
+     })
+
+    })
+      })
+
+})
+}
+
+
+
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -203,4 +257,5 @@ module.exports = {
     addEmployee,
     employeeLogin,
     newArticle,
+    newGif,
 }
