@@ -56,6 +56,8 @@ CREATE TABLE Flagged (
   comment VARCHAR(255) NOT NULL,
   createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
   type VARCHAR(255) NOT NULL,
+  flag TEXT NOT NULL,
+  flag_title VARCHAR(255) NOT NULL,
   type_id INT NOT NULL,
   employee_id INT REFERENCES Employee(ID)
 );

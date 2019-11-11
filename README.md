@@ -11,9 +11,8 @@ Method | Endpoint | Function |
 |POST| `/api/v1/admin/register` | sign up. |
 |POST| `/api/v1/admin/login` | sign in. |
 |POST| `/api/v1/admin/newemployee` | create employee account. |
-|DELETE| `/api/v1/admin/article_id` | delete flaged article. |
-|DELETE| `/api/v1/admin/gifs_id` | delete flaged gifs. |
-|DELETE| `/api/v1/admin/comment_id` | delete flaged comment. |
+|GET| `/api/v1/flags` | view all reported post. |
+|DELETE| `/api/v1/flag` | delete flaged post. |
 |EMPLOYEE| . |   .   |
 |POST| `/api/v1/articles` | create an article. |
 |POST| `/api/v1/gifs` | create a gif. |

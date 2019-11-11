@@ -29,6 +29,8 @@ app.post('/api/v1/auth/create-admin', model.addAdmin)
 app.post('/api/v1/auth/create-user',auth, model.addEmployee)
 app.post('/api/v1/auth/admin/signin', model.adminLogin)
 app.get('/api/v1/getadmin',auth, model.getAdmin)
+app.get('/api/v1/flags',auth, model.getFlags)
+app.delete('/api/v1/flag',auth, model.deleteFlag)
 
 //EMPLOYEE
 app.post('/api/v1/auth/signin', model.employeeLogin)
