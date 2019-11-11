@@ -43,5 +43,8 @@ app.get('/api/v1/feed',auth, model.feed)
 app.get('/api/v1/articles/:id',auth, model.viewArticle)
 app.get('/api/v1/gifs/:id',auth, model.viewGif)
 app.get('/api/v1/feed/search',auth, model.viewCategory)
+app.post('/api/v1/articles/:id/flag',auth, model.flagArticle)
+app.post('/api/v1/gifs/:id/flag',auth, model.flagGif)
+
 
 module.exports = app;
