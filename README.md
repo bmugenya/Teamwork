@@ -26,5 +26,6 @@ Method | Endpoint | Function |
 |GET| `/api/v1/article/<articleId>` | view a specific article. |
 |GET| `/api/v1/gif/<gifId>` | view a specific gif. |
 |GET| `/api/v1/feed/search?category={category}` | view similar articles. |
-
+|POST| `/api/v1/articles/<articleId>/flag` | Flag article as inappropriate. |
+|POST| `/api/v1/gifs/<gifId>/flag` | Flag gif as inappropriate. |
 
