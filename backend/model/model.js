@@ -537,6 +537,68 @@ const viewCategory = (request, response) => {
   })
 }
 
+
+const flagArticle = (request, response) => {
+  const articleId = parseInt(request.params.id)
+  const {comment,employee_id } = request.body
+  const type = 'Article'
+
+  pool.query('INSERT INTO Flagged (comment,type,type_id,employee_id) VALUES  ($1,$2,$3,$4)',
+    [comment,type,articleId,employee_id], error => {
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+
+   const now = new Date()
+   response.status(201).json({
+     status: 'success',
+     data :{
+       message: 'Article Reported',
+       createdOn:now,
+       comment:comment
+     }
+   })
+
+    })
+
+
+}
+
+
+
+
+const flagGif = (request, response) => {
+  const gifId = parseInt(request.params.id)
+  const {comment,employee_id } = request.body
+  const type = 'Gif'
+
+  pool.query('INSERT INTO Flagged (comment,type,type_id,employee_id) VALUES  ($1,$2,$3,$4)',
+    [comment,type,gifId,employee_id], error => {
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+
+   const now = new Date()
+   response.status(201).json({
+     status: 'success',
+     data :{
+       message: 'Gif Reported',
+       createdOn:now,
+       comment:comment
+     }
+   })
+
+    })
+
+
+}
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -554,5 +616,7 @@ module.exports = {
     feed,
     viewArticle,
     viewGif,
-    viewCategory
+    viewCategory,
+    flagArticle,
+    flagGif,
 }
