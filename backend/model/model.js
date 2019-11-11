@@ -519,6 +519,24 @@ const viewGif = (request, response) => {
   })
 }
 
+
+const viewCategory = (request, response) => {
+
+  const article = request.query.category
+
+
+  pool.query('SELECT * FROM Article WHERE title ILIKE $1 ORDER BY id DESC', [ article + '%'],
+   (error, results) => {
+    if (error) {
+      response.status(400).json({
+          error:error
+      });
+    }
+
+    response.status(200).json(results.rows)
+  })
+}
+
 module.exports = {
     getAdmin,
     addAdmin,
@@ -535,5 +553,6 @@ module.exports = {
     commentGif,
     feed,
     viewArticle,
-    viewGif
+    viewGif,
+    viewCategory
 }
