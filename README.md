@@ -25,3 +25,6 @@ Method | Endpoint | Function |
 |GET| `/api/v1/feed` | view all articles. |
 |GET| `/api/v1/article/<articleId>` | view a specific article. |
 |GET| `/api/v1/gif/<gifId>` | view a specific gif. |
+|GET| `/api/v1/feed/search?category={category}` | view similar articles. |
+
+
