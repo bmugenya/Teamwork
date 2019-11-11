@@ -522,3 +522,33 @@ describe('GET /api/v1/gifs/gifId', function() {
     });
 
 });
+
+
+
+describe('GET /api/v1/feed/search?category={category}', function() {
+  var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/signin')
+      .send({username:'employee1@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Employees can view all articles that belong to a category (tag)', function(done) {
+     request(app).get('/api/v1/feed/search')
+      .set('Authorization', 'Bearer ' +  token)
+      .expect(200)
+       .expect('Content-Type', /json/)
+        .end(function(error, response){
+            if(error) return done(error);
+            done();
+        });
+
+    });
+
+});
