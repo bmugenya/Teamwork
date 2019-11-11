@@ -552,3 +552,81 @@ describe('GET /api/v1/feed/search?category={category}', function() {
     });
 
 });
+
+
+
+
+
+describe('POST /api/v1/articles/:id/flag', function() {
+  var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/signin')
+      .send({username:'employee1@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Should be able to report an article', function(done) {
+
+        request(app).post('/api/v1/articles/'+ 1 +'/flag')
+        .set('Authorization', 'Bearer ' +  token)
+        .set('Accept', 'application/json')
+        .send({ comment:"rude", employee_id:11 })
+
+        .expect('Content-Type', /json/)
+        .expect(201)
+
+        .end(function(error, response){
+            if(error) return done(error);
+               expect(response.body.status).to.be.equal('success');
+               expect(response.body.data.message).to.be.equal('Article Reported');
+            done();
+        });
+
+    });
+
+});
+
+
+
+
+describe('POST /api/v1/gifs/:id/flag', function() {
+  var token;
+
+  before(function(done) {
+    request(app).post('/api/v1/auth/signin')
+      .send({username:'employee1@email.com', password:'12345' })
+      .end(function(error, response) {
+        if(error) return done(error);
+        token = response.body.token
+        done();
+      });
+
+  });
+
+    it('Should be able to report a gif', function(done) {
+
+        request(app).post('/api/v1/gifs/'+ 1 +'/flag')
+        .set('Authorization', 'Bearer ' +  token)
+        .set('Accept', 'application/json')
+        .send({ comment:"ninja way", employee_id:11 })
+
+        .expect('Content-Type', /json/)
+        .expect(201)
+
+        .end(function(error, response){
+            if(error) return done(error);
+               expect(response.body.status).to.be.equal('success');
+               expect(response.body.data.message).to.be.equal('Gif Reported');
+            done();
+        });
+
+    });
+
+});
+
