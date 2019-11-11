@@ -543,8 +543,20 @@ const flagArticle = (request, response) => {
   const {comment,employee_id } = request.body
   const type = 'Article'
 
-  pool.query('INSERT INTO Flagged (comment,type,type_id,employee_id) VALUES  ($1,$2,$3,$4)',
-    [comment,type,articleId,employee_id], error => {
+    pool.query('SELECT article,title FROM Article WHERE id = $1',[articleId], (error, results) => {
+    if (error) {
+      response.status(400).json({
+          error:error
+      });
+    }
+
+   if(results.rows[0]){
+
+     const flag = results.rows[0].article
+     const flag_title = results.rows[0].title
+
+  pool.query('INSERT INTO Flagged (comment,type,flag,flag_title,type_id,employee_id) VALUES  ($1,$2,$3,$4,$5,$6)',
+    [comment,type,flag,flag_title,articleId,employee_id], error => {
     if (error) {
          response.status(400).json({
          error:error
@@ -558,14 +570,25 @@ const flagArticle = (request, response) => {
      data :{
        message: 'Article Reported',
        createdOn:now,
+       article:flag,
+       articleTitle:flag_title,
        comment:comment
      }
    })
 
     })
 
+}else{
+     response.status(400).json({
+     status: 'ERROR',
+     message: 'Article Not Availabe'
+
+   })
 
 }
+})
+   }
+
 
 
 
@@ -575,8 +598,21 @@ const flagGif = (request, response) => {
   const {comment,employee_id } = request.body
   const type = 'Gif'
 
-  pool.query('INSERT INTO Flagged (comment,type,type_id,employee_id) VALUES  ($1,$2,$3,$4)',
-    [comment,type,gifId,employee_id], error => {
+
+
+   pool.query('SELECT imageUrl,title FROM Gifs WHERE id = $1',[gifId], (error, results) => {
+    if (error) {
+      response.status(400).json({
+          error:error
+      });
+    }
+
+   if(results.rows[0]){
+
+     const flag_title= results.rows[0].title
+     const flag = results.rows[0].imageurl
+  pool.query('INSERT INTO Flagged (comment,type,flag,flag_title,type_id,employee_id) VALUES  ($1,$2,$3,$4,$5,$6)',
+    [comment,type,flag,flag_title,gifId,employee_id], error => {
     if (error) {
          response.status(400).json({
          error:error
@@ -590,14 +626,115 @@ const flagGif = (request, response) => {
      data :{
        message: 'Gif Reported',
        createdOn:now,
+       image:flag,
+       gifTitile:flag_title,
        comment:comment
      }
    })
 
     })
 
+}else{
+
+       response.status(400).json({
+     status: 'ERROR',
+     message: 'Gif Not Availabe'
+
+   })
+
+
 
 }
+}
+)}
+
+
+
+const getFlags = (request, response) => {
+  pool.query('SELECT * FROM Flagged', (error, results) => {
+    if (error) {
+      response.status(400).json({
+          error:error
+      });
+    }
+
+    response.status(200).json(results.rows)
+  })
+}
+
+
+
+
+
+const deleteFlag = (request, response) => {
+
+  const { type, type_id }  = request.body
+
+  if(type.toLowerCase() == 'article'){
+
+  pool.query('DELETE FROM Article WHERE id = $1', [type_id], (error,results) => {
+
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+    if(results.rowCount){
+
+   response.status(200).json({
+     status: 'success',
+     data :{
+       message: 'Article successfully deleted'
+
+     }
+   })
+}else{
+     response.status(400).json({
+     status: 'Article NOT FOUND',
+   })
+}
+
+    })
+
+
+  }else if(type.toLowerCase() == 'gif'){
+
+
+
+ pool.query('DELETE FROM Gifs WHERE id = $1', [type_id], (error,results) => {
+
+    if (error) {
+         response.status(400).json({
+         error:error
+      });
+    }
+
+    if(results.rowCount){
+
+
+   response.status(200).json({
+     status: 'success',
+     data :{
+       message: 'gif post successfully deleted'
+
+     }
+   })
+}else{
+     response.status(400).json({
+     status: 'Article NOT FOUND',
+   })
+}
+
+    })
+
+
+}
+
+
+  }
+
+
 
 module.exports = {
     getAdmin,
@@ -619,4 +756,6 @@ module.exports = {
     viewCategory,
     flagArticle,
     flagGif,
+    getFlags,
+    deleteFlag
 }
