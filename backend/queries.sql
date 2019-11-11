@@ -49,3 +49,13 @@ CREATE TABLE CommentGif (
   employee_id INT REFERENCES Employee(ID),
   gif_id INT REFERENCES Gifs(ID)
 );
+
+
+CREATE TABLE Flagged (
+  ID SERIAL PRIMARY KEY,
+  comment VARCHAR(255) NOT NULL,
+  createdOn DATE NOT NULL DEFAULT CURRENT_DATE,
+  type VARCHAR(255) NOT NULL,
+  type_id INT NOT NULL,
+  employee_id INT REFERENCES Employee(ID)
+);
