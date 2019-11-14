@@ -4,6 +4,8 @@ language: node_js
 
 node_js:
   - "stable"
+ 
+before_script:cd backend
 
 cache:
   directories:
