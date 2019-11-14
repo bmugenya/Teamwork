@@ -7,6 +7,9 @@ node_js:
  
 before_script: cd backend
 
+install:
+  - npm ci
+
 cache:
   directories:
     - "node_modules"
