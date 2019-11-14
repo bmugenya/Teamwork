@@ -1,4 +1,4 @@
-var app = require('./app');
+const app = require('./app');
 
 // Start server
 app.listen(process.env.PORT || 3000, () => {
