@@ -3,8 +3,8 @@ const app = require('../../app.js');
 const expect = require('chai').expect;
 
 
-describe('POST /api/v1/auth/create-user', function() {
-  var token;
+
+const token;
   before(function(done) {
     request(app).post('/api/v1/auth/signin')
       .send({username:'admin@email.com', password:'12345' })
@@ -13,21 +13,32 @@ describe('POST /api/v1/auth/create-user', function() {
         token = response.body.data.token;
         done();
       });
-
   });
 
-    it('Should be able to register an employee', function(done) {
+
+describe('POST /api/v1/auth/create-user', function() {
+
+  const employee_id;
+
+  after(function(done) {
+  request(app).delete('/api/v1/employee/' + employee_id)
+  .end(function(error, response) {
+    if(error) return done(error);
+      done();
+    });
+  });
 
 
-        request(app).post('/api/v1/auth/create-user')
-        .set('Authorization', 'Bearer ' +  token)
-        .set('Accept', 'application/json')
+  it('Should be able to register an employee', function(done) {
+    request(app).post('/api/v1/auth/create-user')
+    .set('Authorization', 'Bearer ' +  token)
+    .set('Accept', 'application/json')
         .send({
             adminEmail:"admin@email.com",
             adminPassword:"12345",
             firstName:'BrianT',
             lastName:'Mugenya',
-            email:'employee4@email.com',
+            email:'test@email.com',
             password:'12345',
             gender:'Male',
             jobRole:'Security',
@@ -43,6 +54,7 @@ describe('POST /api/v1/auth/create-user', function() {
             if(error) return done(error);
                expect(response.body.status).to.be.equal('success');
                expect(response.body.data.message).to.be.equal('User account successfully created');
+               employee_id = response.body.data.userId;
             done();
         });
 
@@ -74,20 +86,22 @@ describe('POST /api/v1/auth/signin', function() {
 
 
 
-
 describe('POST /api/v1/articles', function() {
-  var token;
+  const article_id;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
+
+    after(function(done) {
+    request(app).delete('/api/v1/articles/' + article_id)
+      .set('Authorization', 'Bearer ' +  token)
+      .set('Accept', 'application/json')
+      .send({ employee_id:1 })
+
       .end(function(error, response) {
         if(error) return done(error);
-        token = response.body.token;
         done();
       });
-
   });
+
 
     it('Should be able to create an article', function(done) {
 
@@ -96,9 +110,9 @@ describe('POST /api/v1/articles', function() {
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
         .send({
-                title:"Nindo way",
-                article:"My nindo way is to give my best till the very end",
-                employee_id:13
+                title:"test",
+                article:"test",
+                employee_id:1
             })
 
         .expect('Content-Type', /json/)
@@ -108,7 +122,8 @@ describe('POST /api/v1/articles', function() {
             if(error) return done(error);
                expect(response.body.status).to.be.equal('success');
                expect(response.body.data.message).to.be.equal('Article successfully posted');
-               // expect(response.body.data).should.to.have.property('token');
+               article_id = response.body.data.articleId;
+
             done();
         });
 
@@ -117,32 +132,34 @@ describe('POST /api/v1/articles', function() {
 });
 
 
-describe('PATCH /api/v1/articles/:id', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
+
+describe('PATCH /api/v1/articles/:id', function() {
+
+    const article_id;
+
+    beforeEach(function(done) {
+        request(app).post('/api/v1/articles')
+        .set('Authorization', 'Bearer ' +  token)
+        .set('Accept', 'application/json')
+        .send({title:"test",article:"test",employee_id:1})
+        .end(function(error, response){
+          if(error) return done(error);
+           article_id = response.body.data.articleId;
+           done();
+
+ });
       });
 
-  });
+
+
 
     it('Should be able to update an article', function(done) {
 
-
-        request(app).patch('/api/v1/articles/' + 1)
+        request(app).patch('/api/v1/articles/' + article_id)
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
-        .send({
-                title:"update update update",
-                article:"My nindo way is to give my best till the very end",
-                employee_id:12
-            })
-
+        .send({title:"update", article:"My nindo way is to give my best till the very end",employee_id:1})
         .expect('Content-Type', /json/)
         .expect(200)
 
@@ -160,26 +177,32 @@ describe('PATCH /api/v1/articles/:id', function() {
 
 
 describe('DELETE /api/v1/articles/:id', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
+
+  const article_id;
+    beforeEach(function(done) {
+        request(app).post('/api/v1/articles')
+        .set('Authorization', 'Bearer ' +  token)
+        .set('Accept', 'application/json')
+        .send({title:"test",article:"test",employee_id:1})
+        .end(function(error, response){
+          if(error) return done(error);
+           article_id = response.body.data.articleId;
+           done();
+
+ });
       });
 
-  });
+
 
     it('Should be able to delete an article', function(done) {
 
 
-        request(app).delete('/api/v1/articles/' + 7)
+
+        request(app).delete('/api/v1/articles/' + article_id)
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
-        .send({ employee_id:13 })
+        .send({ employee_id:1})
         .expect('Content-Type', /json/)
         .expect(200)
 
@@ -197,26 +220,14 @@ describe('DELETE /api/v1/articles/:id', function() {
 
 
 describe('DELETE /api/v1/gifs/:id', function() {
-  var token;
-
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to delete gif', function(done) {
 
 
-        request(app).delete('/api/v1/gifs/' + 7)
+        request(app).delete('/api/v1/gifs/' + 1)
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
-        .send({ employee_id:12 })
+        .send({ employee_id:1 })
         .expect('Content-Type', /json/)
         .expect(200)
 
@@ -235,25 +246,14 @@ describe('DELETE /api/v1/gifs/:id', function() {
 
 
 describe('POST /api/v1/articles/:id/comment', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to comment on an article', function(done) {
 
         request(app).post('/api/v1/articles/'+ 1 +'/comment')
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
-        .send({ comment:"ninja way", employee_id:11 })
+        .send({ comment:"ninja way", employee_id:1 })
 
         .expect('Content-Type', /json/)
         .expect(201)
@@ -274,25 +274,14 @@ describe('POST /api/v1/articles/:id/comment', function() {
 
 
 describe('POST /api/v1/gifs/:id/comment', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to comment on a gif', function(done) {
 
-        request(app).post('/api/v1/gifs/'+ 2 +'/comment')
+        request(app).post('/api/v1/gifs/'+ 1 +'/comment')
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
-        .send({ comment:"ninja way", employee_id:11 })
+        .send({ comment:"ninja way", employee_id:1 })
 
         .expect('Content-Type', /json/)
         .expect(201)
@@ -310,18 +299,7 @@ describe('POST /api/v1/gifs/:id/comment', function() {
 
 
 describe('GET /api/v1/feed', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to get all aticles in descending order', function(done) {
      request(app).get('/api/v1/feed')
@@ -342,21 +320,9 @@ describe('GET /api/v1/feed', function() {
 
 
 describe('GET /api/v1/articles/articleId', function() {
-  var token;
-
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to get a specific article', function(done) {
-     request(app).get('/api/v1/articles/' + 3)
+     request(app).get('/api/v1/articles/' + 1)
       .set('Authorization', 'Bearer ' +  token)
       .expect(200)
        .expect('Content-Type', /json/)
@@ -375,21 +341,9 @@ describe('GET /api/v1/articles/articleId', function() {
 
 
 describe('GET /api/v1/gifs/gifId', function() {
-  var token;
-
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to get a specific gif', function(done) {
-     request(app).get('/api/v1/gifs/' + 2)
+     request(app).get('/api/v1/gifs/' + 1)
       .set('Authorization', 'Bearer ' +  token)
       .expect(200)
        .expect('Content-Type', /json/)
@@ -405,18 +359,7 @@ describe('GET /api/v1/gifs/gifId', function() {
 
 
 describe('GET /api/v1/feed/search?category={category}', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Employees can view all articles that belong to a category (tag)', function(done) {
      request(app).get('/api/v1/feed/search')
@@ -433,29 +376,15 @@ describe('GET /api/v1/feed/search?category={category}', function() {
 });
 
 
-
-
-
 describe('POST /api/v1/articles/:id/flag', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to report an article', function(done) {
 
         request(app).post('/api/v1/articles/'+ 1 +'/flag')
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
-        .send({ comment:"rude", employee_id:11 })
+        .send({ comment:"rude", employee_id:1 })
 
         .expect('Content-Type', /json/)
         .expect(201)
@@ -475,25 +404,14 @@ describe('POST /api/v1/articles/:id/flag', function() {
 
 
 describe('POST /api/v1/gifs/:id/flag', function() {
-  var token;
 
-  before(function(done) {
-    request(app).post('/api/v1/auth/signin')
-      .send({username:'employee1@email.com', password:'12345' })
-      .end(function(error, response) {
-        if(error) return done(error);
-        token = response.body.token;
-        done();
-      });
-
-  });
 
     it('Should be able to report a gif', function(done) {
 
         request(app).post('/api/v1/gifs/'+ 1 +'/flag')
         .set('Authorization', 'Bearer ' +  token)
         .set('Accept', 'application/json')
-        .send({ comment:"ninja way", employee_id:11 })
+        .send({ comment:"ninja way", employee_id:1 })
 
         .expect('Content-Type', /json/)
         .expect(201)
