@@ -1,6 +1,5 @@
 sudo: false
 
-before_install: cd backend
 
 language: node_js
 
@@ -16,7 +15,7 @@ services:
 before_script:
   - psql -c 'create database Teamwork;' -U postgres
  
- script: ./backend/queries.sql
+ script: queries.sql
   
 
 cache:
