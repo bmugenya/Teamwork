@@ -1,4 +1,9 @@
+sudo: false
+
 language: node_js
+
+install:
+  - npm ci
 
 script:
   - npm test

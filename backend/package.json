@@ -28,6 +28,7 @@
     "dataurl": "^0.1.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-api-versioning": "^2.0.0",
     "express-session": "^1.17.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.20.1",
