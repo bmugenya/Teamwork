@@ -14,7 +14,7 @@ services:
   
 before_script:
   - psql -c 'create database Teamwork;' -U postgres
-  - psql -u postgres --default-character-set=utf8 Teamwork < backend/queries.sql
+  - psql -u postgres --password="Boywonder47" < backend/queries.sql
   
 
 cache:
