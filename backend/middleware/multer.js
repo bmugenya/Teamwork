@@ -1,5 +1,5 @@
-var multer  = require('multer');
-var Datauri = require('datauri');
+const multer  = require('multer');
+const Datauri = require('datauri');
 const path = require('path');
 
 const storage = multer.memoryStorage();
@@ -9,4 +9,4 @@ const dUri = new Datauri();
 
 const dataUri = req => dUri.format(path.extname(req.file.originalname).toString(), req.file.buffer);
 
-module.exports =  { multerUploads,dataUri }
+module.exports =  { multerUploads,dataUri };
