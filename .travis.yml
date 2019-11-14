@@ -14,7 +14,7 @@ services:
   
 before_script:
   - psql -c 'create database Teamwork;' -U postgres
-  - psql -u postgres --password="Boywonder47" < backend/queries.sql
+  - psql -c postgres --password="Boywonder47" < backend/queries.sql
   
 
 cache:
