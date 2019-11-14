@@ -16,19 +16,19 @@ const saltRounds = 10;
 const createUser = (request, response) => {
 
   // ADMIN CREDENTIALS
-  var adminEmail = request.body.adminEmail;
-  var adminPassword = request.body.adminPassword;
+  const adminEmail = request.body.adminEmail;
+  const adminPassword = request.body.adminPassword;
 
 
-  var firstName = request.body.firstName;
-  var lastName = request.body.lastName;
-  var email = request.body.email;
-  var password = request.body.password;
-  var gender = request.body.gender;
-  var jobRole= request.body.jobRole;
-  var department = request.body.department;
-  var address = request.body.address;
-  var is_admin = request.body.is_admin;
+  const firstName = request.body.firstName;
+  const lastName = request.body.lastName;
+  const email = request.body.email;
+  const password = request.body.password;
+  const gender = request.body.gender;
+  const jobRole= request.body.jobRole;
+  const department = request.body.department;
+  const address = request.body.address;
+  const is_admin = request.body.is_admin;
 
   // ADMIN VERIFICATION
   pool.query('select employee_id, password,is_admin from Employee where email = $1 and is_admin = $2',
@@ -40,7 +40,7 @@ const createUser = (request, response) => {
 
     } else {
 
-      var hash = results.rows[0].password.toString();
+      const hash = results.rows[0].password.toString();
       bcrypt.compare(adminPassword, hash ,function(error,res){
         if(!res){
           return response.status(401).json({status: "error", error: 'Invalid password' });
@@ -57,8 +57,8 @@ const createUser = (request, response) => {
           function(error,results,fields){
             if(error) throw error;
 
-            var user_id = results.rows[0].user_id;
-            var token = jwt.sign({ user_id:user_id},'RANDOM_TOKEN_SECRET',{expiresIn:'24h'});
+            const user_id = results.rows[0].user_id;
+            const token = jwt.sign({ user_id:user_id},'RANDOM_TOKEN_SECRET',{expiresIn:'24h'});
 
             response.status(201).json({
               status: 'success',
@@ -77,7 +77,7 @@ const createUser = (request, response) => {
 };
 
 const signIn = (request, res, next) => {
-  var { username, password } = request.body;
+  const { username, password } = request.body;
 
   pool.query('select employee_id, password from Employee where email = $1',
   [username],function(error,results,fields) {
@@ -87,15 +87,15 @@ const signIn = (request, res, next) => {
 
     } else {
 
-      var hash = results.rows[0].password.toString();
+      const hash = results.rows[0].password.toString();
       bcrypt.compare(password, hash ,function(error,response){
         if(!response){
           return res.status(401).json({ status: "error", error: 'Invalid password' });
         }
 
-        var user_id = results.rows[0].employee_id;
+        const user_id = results.rows[0].employee_id;
 
-        var token = jwt.sign({ user_id:user_id},'RANDOM_TOKEN_SECRET',{expiresIn:'24h'});
+        const token = jwt.sign({ user_id:user_id},'RANDOM_TOKEN_SECRET',{expiresIn:'24h'});
 
 
         res.status(200).json({
@@ -115,7 +115,7 @@ const signIn = (request, res, next) => {
 
 
 const createArticle = (request, response) => {
-  var { title, article, employee_id } = request.body;
+  const { title, article, employee_id } = request.body;
 
 
   pool.query('INSERT INTO Article (title, article, employee_id) VALUES ($1, $2,$3)',
@@ -131,8 +131,8 @@ const createArticle = (request, response) => {
     function(error,results,fields){
       if(error) throw error;
 
-      var article_id = results.rows[0].article_id;
-      var now = new Date();
+      const article_id = results.rows[0].article_id;
+      const now = new Date();
 
       response.status(201).json({
        status: 'success',
@@ -152,12 +152,12 @@ const createArticle = (request, response) => {
 
 const createGif = (request, response) => {
 
-  var file = dataUri(request).content;
-  var title = request.body.title;
-  var employee_id = request.body.employee_id;
+  const file = dataUri(request).content;
+  const title = request.body.title;
+  const employee_id = request.body.employee_id;
 
   return uploader.upload(file).then((result) => {
-    var image = result.url;
+    const image = result.url;
 
     pool.query('INSERT INTO Gifs (imageUrl ,title,employee_id) VALUES ($1, $2,$3)',
     [image, title,employee_id], error => {
@@ -169,8 +169,8 @@ const createGif = (request, response) => {
     function(error,results,fields){
       if(error) throw error;
 
-      var gif_id = results.rows[0].gif_id;
-      var now = new Date();
+      const gif_id = results.rows[0].gif_id;
+      const now = new Date();
 
       response.status(201).json({
         status: 'success',
@@ -193,8 +193,8 @@ const createGif = (request, response) => {
 
 const editArticle = (request, response) => {
 
-  var articleId = parseInt(request.params.id);
-  var { title, article,employee_id } = request.body;
+  const articleId = parseInt(request.params.id);
+  const { title, article,employee_id } = request.body;
 
   pool.query('UPDATE Article SET title = $1, article = $2 WHERE article_id = $3 AND employee_id = $4',
   [title, article,articleId, employee_id], (error,results) => {
@@ -215,7 +215,7 @@ const editArticle = (request, response) => {
       });
 
     }  else  {
-      response.status(401).json({ status:'error'});
+      response.status(401).json({ status:'error', error:'You do not have permision'});
     }
 
   });
@@ -225,8 +225,8 @@ const editArticle = (request, response) => {
 
 const deleteArticle = (request, response) => {
 
-  var articleId = parseInt(request.params.id);
-  var { employee_id }  = request.body;
+  const articleId = parseInt(request.params.id);
+  const { employee_id }  = request.body;
 
   pool.query('DELETE FROM Article WHERE article_id = $1 AND employee_id = $2',
   [articleId, employee_id], (error,results) => {
@@ -253,8 +253,8 @@ const deleteArticle = (request, response) => {
 
 const deleteGif = (request, response) => {
 
-  var articleId = parseInt(request.params.id);
-  var { employee_id }  = request.body;
+  const articleId = parseInt(request.params.id);
+  const { employee_id }  = request.body;
 
   pool.query('DELETE FROM Gifs WHERE gif_id = $1 AND employee_id = $2',
   [articleId, employee_id], (error,results) => {
@@ -280,8 +280,8 @@ const deleteGif = (request, response) => {
 
 const commentArticle = (request, response) => {
 
-  var articleId = parseInt(request.params.id);
-  var { comment,employee_id } = request.body;
+  const articleId = parseInt(request.params.id);
+  const { comment,employee_id } = request.body;
 
   pool.query('SELECT title,article FROM Article WHERE article_id = $1',
   [articleId], (error, results) => {
@@ -298,7 +298,7 @@ const commentArticle = (request, response) => {
         response.status(401).json({status:"error",error:error.detail});
       }
 
-      var now = new Date();
+      const now = new Date();
       response.status(201).json({
         status: 'success',
         data :{
@@ -319,8 +319,8 @@ const commentArticle = (request, response) => {
 
 const commentGif = (request, response) => {
 
-  var gifId = parseInt(request.params.id);
-  var { comment,employee_id } = request.body;
+  const gifId = parseInt(request.params.id);
+  const { comment,employee_id } = request.body;
 
   pool.query('SELECT title FROM Gifs WHERE gif_id = $1',
   [gifId], (error, results) => {
@@ -337,7 +337,7 @@ const commentGif = (request, response) => {
          response.status(401).json({status:"error",error:error.detail});
         }
 
-        var now = new Date();
+        const now = new Date();
         response.status(201).json({
           status: 'success',
           data : {
@@ -368,7 +368,7 @@ const feed = (request, response) => {
 
 const viewArticle = (request, response) => {
 
-  var articleId = parseInt(request.params.id);
+  const articleId = parseInt(request.params.id);
   pool.query('SELECT * FROM Article WHERE article_id = $1', [articleId], (error, results) => {
     if(error){
       response.status(401).json({status:"error",error:error.detail});
@@ -379,7 +379,7 @@ const viewArticle = (request, response) => {
 
 const viewGif = (request, response) => {
 
-  var gifId = parseInt(request.params.id);
+  const gifId = parseInt(request.params.id);
   pool.query('SELECT * FROM Gifs WHERE gif_id = $1',
   [gifId], (error, results) => {
     if(error){
@@ -392,7 +392,7 @@ const viewGif = (request, response) => {
 
 const viewCategory = (request, response) => {
 
-  var article = request.query.category;
+  const article = request.query.category;
 
   pool.query('SELECT * FROM Article WHERE title ILIKE $1 ORDER BY article_id DESC', [ article + '%'],
    (error, results) => {
@@ -406,9 +406,9 @@ const viewCategory = (request, response) => {
 
 
 const flagArticle = (request, response) => {
-  var articleId = parseInt(request.params.id);
-  var {comment,employee_id } = request.body;
-  var type = 'Article';
+  const articleId = parseInt(request.params.id);
+  const {comment,employee_id } = request.body;
+  const type = 'Article';
 
   pool.query('SELECT article,title FROM Article WHERE article_id = $1',
   [articleId], (error, results) => {
@@ -417,8 +417,8 @@ const flagArticle = (request, response) => {
     }
 
    if(results.rows[0]){
-    var flag = results.rows[0].article;
-    var flag_title = results.rows[0].title;
+    const flag = results.rows[0].article;
+    const flag_title = results.rows[0].title;
 
   pool.query('INSERT INTO Flagged (comment,type,flag,flag_title,type_id,employee_id) VALUES ($1,$2,$3,$4,$5,$6)',
   [comment,type,flag,flag_title,articleId,employee_id], error => {
@@ -451,9 +451,9 @@ const flagArticle = (request, response) => {
 
 const flagGif = (request, response) => {
 
-  var gifId = parseInt(request.params.id);
-  var {comment,employee_id } = request.body;
-  var type = 'Gif';
+  const gifId = parseInt(request.params.id);
+  const {comment,employee_id } = request.body;
+  const type = 'Gif';
 
 
    pool.query('SELECT imageUrl,title FROM Gifs WHERE gif_id = $1',[gifId], (error, results) => {
@@ -463,8 +463,8 @@ const flagGif = (request, response) => {
 
    if(results.rows[0]){
 
-    var flag_title= results.rows[0].title;
-    var flag = results.rows[0].imageurl;
+    const flag_title= results.rows[0].title;
+    const flag = results.rows[0].imageurl;
     pool.query('INSERT INTO Flagged (comment,type,flag,flag_title,type_id,employee_id) VALUES ($1,$2,$3,$4,$5,$6)',
     [comment,type,flag,flag_title,gifId,employee_id], error => {
       if(error){
@@ -503,7 +503,7 @@ const getFlags = (request, response) => {
 
 const deleteFlag = (request, response) => {
 
-  var { type, type_id }  = request.body;
+  const { type, type_id }  = request.body;
   if(type.toLowerCase() == 'article'){
 
     pool.query('DELETE FROM Article WHERE id = $1', [type_id], (error,results) => {
@@ -551,6 +551,39 @@ const deleteFlag = (request, response) => {
 
 
 
+
+
+
+const deleteEmployee = (request, response) => {
+
+  const employee_id  = parseInt(request.params.id);
+
+
+  pool.query('DELETE FROM employee WHERE employee_id = $1',[employee_id], (error,results) => {
+
+    if(error){
+      response.status(401).json({status:"error",error:error.detail});
+    }
+
+    if(results.rowCount){
+
+
+   response.status(200).json({
+     status: 'success',
+      data :{
+      message: 'Employee successfully deleted'
+      }
+    });
+  } else {
+    response.status(401).json({status: 'error'});
+  }
+});
+};
+
+
+
+
+
 module.exports = {
     createUser,
     signIn,
@@ -568,5 +601,6 @@ module.exports = {
     flagArticle,
     flagGif,
     getFlags,
-    deleteFlag
+    deleteFlag,
+    deleteEmployee
 };
