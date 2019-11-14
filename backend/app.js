@@ -7,14 +7,14 @@ const path = require('path');
 const config = require('./config/cloudinaryConfig');
 
 
-var app = express();
+const app = express();
 const model = require('./model/model');
 const auth = require('./middleware/auth');
 const multer = require('./middleware/multer');
 
-var uploader = config.uploader;
-var cloudinaryConfig = config.cloudinaryConfig;
-var multerUploads = multer.multerUploads;
+const uploader = config.uploader;
+const cloudinaryConfig = config.cloudinaryConfig;
+const multerUploads = multer.multerUploads;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -44,6 +44,9 @@ app.get('/api/v1/gifs/:id',auth, model.viewGif);
 app.get('/api/v1/feed/search',auth, model.viewCategory);
 app.post('/api/v1/articles/:id/flag',auth, model.flagArticle);
 app.post('/api/v1/gifs/:id/flag',auth, model.flagGif);
+
+app.delete('/api/v1/employee/:id',model.deleteEmployee);
+
 
 
 module.exports = app;
