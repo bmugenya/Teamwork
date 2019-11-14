@@ -4,7 +4,7 @@ const expect = require('chai').expect;
 
 
 
-const token;
+let token;
   before(function(done) {
     request(app).post('/api/v1/auth/signin')
       .send({username:'admin@email.com', password:'12345' })
@@ -18,7 +18,7 @@ const token;
 
 describe('POST /api/v1/auth/create-user', function() {
 
-  const employee_id;
+  let employee_id;
 
   after(function(done) {
   request(app).delete('/api/v1/employee/' + employee_id)
@@ -87,7 +87,7 @@ describe('POST /api/v1/auth/signin', function() {
 
 
 describe('POST /api/v1/articles', function() {
-  const article_id;
+  let article_id;
 
 
     after(function(done) {
@@ -136,7 +136,7 @@ describe('POST /api/v1/articles', function() {
 
 describe('PATCH /api/v1/articles/:id', function() {
 
-    const article_id;
+    let article_id;
 
     beforeEach(function(done) {
         request(app).post('/api/v1/articles')
@@ -179,7 +179,7 @@ describe('PATCH /api/v1/articles/:id', function() {
 describe('DELETE /api/v1/articles/:id', function() {
 
 
-  const article_id;
+  let article_id;
     beforeEach(function(done) {
         request(app).post('/api/v1/articles')
         .set('Authorization', 'Bearer ' +  token)
