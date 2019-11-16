@@ -31,20 +31,20 @@ const createUser = (request, response) => {
   const is_admin = request.body.is_admin;
 
   // ADMIN VERIFICATION
-  // pool.query('select employee_id, password,is_admin from Employee where email = $1 and is_admin = $2',
-  // [adminEmail,"t"],function(error,results,fields) {
+  pool.query('select employee_id, password,is_admin from Employee where email = $1 and is_admin = $2',
+  [adminEmail,"t"],function(error,results,fields) {
 
-  //   if(results.rows.length === 0){
+    if(results.rows.length === 0){
 
-  //     response.status(401).json({ status: "error", error:"Admin user does not exist" });
+      response.status(401).json({ status: "error", error:"Admin user does not exist" });
 
-  //   } else {
+    } else {
 
-  //     const hash = results.rows[0].password.toString();
-  //     bcrypt.compare(adminPassword, hash ,function(error,res){
-  //       if(!res){
-  //         return response.status(401).json({status: "error", error: 'Invalid password' });
-  //       }
+      const hash = results.rows[0].password.toString();
+      bcrypt.compare(adminPassword, hash ,function(error,res){
+        if(!res){
+          return response.status(401).json({status: "error", error: 'Invalid password' });
+        }
 
       bcrypt.hash(password, saltRounds, function(err, hash) {
         pool.query('INSERT INTO Employee (firstName,lastName,email,password,gender,jobRole,department,address,is_admin ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)',
@@ -71,11 +71,10 @@ const createUser = (request, response) => {
           });
         });
       });
-    }
-  //   });
-  // }
-// });
-// };
+    });
+  }
+});
+};
 
 const signIn = (request, res, next) => {
   const { username, password } = request.body;
