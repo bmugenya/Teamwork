@@ -26,7 +26,7 @@ app.use('*', cloudinaryConfig);
 app.post('/api/v1/auth/signin', model.signIn);
 
 //ADMIN
-app.post('/api/v1/auth/create-user', model.createUser);
+app.post('/api/v1/auth/create-user',auth, model.createUser);
 app.get('/api/v1/flags',auth, model.getFlags);
 app.delete('/api/v1/flag',auth, model.deleteFlag);
 
