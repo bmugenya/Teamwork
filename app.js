@@ -16,10 +16,45 @@ const uploader = config.uploader;
 const cloudinaryConfig = config.cloudinaryConfig;
 const multerUploads = multer.multerUploads;
 
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, 'src/public')));
 app.use('*', cloudinaryConfig);
+
+
+// Swagger definition
+const swaggerDefinition = {
+  info: {
+    title: 'Teamwork', // Title of the documentation
+    version: '1', // Version of the app
+    description: 'Teamwork is an ​ internal social network for employees' +
+                  'of an organization. The goal of this application is to' +
+                  'facilitate more interaction between colleagues and promote' +
+                  'team bonding, short description of the app'
+  },
+  host: 'https://api-teamwork.herokuapp.com/', // the host or url of the app
+  basePath: '/api/v1', // the basepath of your endpoint
+};
+
+// options for the swagger docs
+const options = {
+  // import swaggerDefinitions
+  swaggerDefinition,
+  // path to the API docs
+  apis: ['./docs/**/*.yaml'],
+
+};
+// initialize swagger-jsdoc
+const swaggerSpec = swaggerJSDoc(options);
+
+// use swagger-Ui-express for your app documentation endpoint
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+
 
 
 

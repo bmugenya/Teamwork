@@ -1,0 +1,43 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /gifs/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Delete Gif post
+      summary: Employees can delete their gifs post.
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: Delete Gif
+          description: Employees can delete their gifs post.
+          required: false
+          schema:
+            $ref: '#/definitions/deleteGif'
+      responses:
+          200:
+            description: Employees can delete their gifs post.
+
+definitions:
+  deleteGif:
+    type: object
+    properties:
+      employee_id:
+        type: integer
+

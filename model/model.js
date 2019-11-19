@@ -245,7 +245,7 @@ const deleteArticle = (request, response) => {
       }
     });
   } else {
-    response.status(401).json({status: 'error'});
+    response.status(401).json({status: 'error',error:'Article does not exist'});
   }
 });
 };
@@ -272,7 +272,7 @@ const deleteGif = (request, response) => {
         }
       });
     } else {
-     response.status(401).json({ status: 'error'});
+     response.status(401).json({ status: 'error',error:'GIf does not exist'});
     }
 
   });
@@ -312,7 +312,7 @@ const commentArticle = (request, response) => {
     });
   }  else  {
 
-    response.status(401).json({ status: 'error'});
+    response.status(401).json({ status: 'error', error:'Article does not exist'});
   }
 });
 };
@@ -349,7 +349,7 @@ const commentGif = (request, response) => {
         });
       });
     } else {
-     response.status(401).json({status:'error'});
+     response.status(401).json({status:'error',error:'Gif does not exist'});
     }
   });
 };
@@ -441,7 +441,7 @@ const flagArticle = (request, response) => {
   });
 
  } else {
-    response.status(401).json({status: 'error'});
+    response.status(401).json({status: 'error',error:'Article does not exist'});
 
   }
 });
@@ -484,7 +484,7 @@ const flagGif = (request, response) => {
     });
   });
 } else {
-  response.status(401).json({status:'error'});
+  response.status(401).json({status:'error',error:'Gif post does not exist'});
 }
 }
 );};

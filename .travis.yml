@@ -12,10 +12,6 @@ services:
 before_script:
   - psql -c 'create database Teamwork;' -U postgres
   
-script:
-  - backend/queries.sql 
-  
-
 cache:
   directories:
-    - "backend/node_modules"
+    - "node_modules"

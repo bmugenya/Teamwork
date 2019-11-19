@@ -1,0 +1,42 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /articles:
+      post:
+        security:
+          - Bearer: []
+        tags:
+          - Post article
+        summary: Employees can write and post articles.
+        produces:
+        - application/json
+        parameters:
+        - in: body
+          name: Post articles.
+          description: Employees can write and post articles.
+          required: false
+          schema:
+            $ref: '#/definitions/article'
+        responses:
+          201:
+            description: Employees can write and post articles.
+
+definitions:
+  article:
+    type: object
+    properties:
+      title:
+        type: string
+      article:
+        type: string
+      employee_id:
+        type: integer
+

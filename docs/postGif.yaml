@@ -1,0 +1,40 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /gifs:
+      post:
+        security:
+          - Bearer: []
+        tags:
+          - Post Gif
+        summary: Employees can post a gifs.
+        produces:
+          - application/json
+        consumes:
+        - multipart/form-data
+        parameters:
+          - in: formData
+            name: image
+            type: file
+            required: true
+          - in: formData
+            name: title
+            type: string
+            required: true
+          - in: formData
+            name: employee_id
+            type: integer
+            required: true
+        responses:
+          201:
+            description: Employees can post gifs.
+
+

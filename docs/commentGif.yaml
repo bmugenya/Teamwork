@@ -1,0 +1,45 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /gifs/{id}/comment:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Comment on other colleagues gif post.
+      summary: Employees can comment on other colleagues gif post.
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: Gif comment
+          description: Employees can comment on other colleagues gif post.
+          required: false
+          schema:
+            $ref: '#/definitions/commentGif'
+      responses:
+          201:
+            description: Employees can comment on other colleagues gif post.
+
+definitions:
+  commentGif:
+    type: object
+    properties:
+      comment:
+        type: string
+      employee_id:
+        type: integer
+

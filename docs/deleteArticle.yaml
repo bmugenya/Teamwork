@@ -1,0 +1,43 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /articles/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Delete an article.
+      summary: Employees can delete their articles.
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: Delete Article
+          description: Employees can delete their articles.
+          required: false
+          schema:
+            $ref: '#/definitions/deleteArticle'
+      responses:
+          200:
+            description: Employees can delete their articles.
+
+definitions:
+  deleteArticle:
+    type: object
+    properties:
+      employee_id:
+        type: integer
+

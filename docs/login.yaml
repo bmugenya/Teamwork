@@ -1,0 +1,24 @@
+paths:
+  /auth/signin:
+      post:
+        tags:
+          - Admin/Employees can signin
+        summary: Admin/Employees can signin
+        parameters:
+        - in: body
+          name: Login Admin/Employee
+          description: Admin/Employees can sign in
+          required: false
+          schema:
+            $ref: '#/definitions/signin'
+        responses:
+          200:
+            description: Admin/Employees can sign in
+definitions:
+  signin:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string

@@ -15,6 +15,7 @@ module.exports = (request,response,next) => {
      } catch(error) {
          response.status(401).json({
              status:'Error',
+             message:'Token needed',
              error: error
          });
      }

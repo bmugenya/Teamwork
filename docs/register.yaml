@@ -1,0 +1,57 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /auth/create-user:
+    post:
+        security:
+          - Bearer: []
+        tags:
+          - Admin can create an employee user account.
+        summary: Admin can create an employee user account.
+        produces:
+        - application/json
+        parameters:
+        - in: body
+          name: create user
+          description: Admin can create an employee user account.
+          required: false
+          schema:
+            $ref: '#/definitions/signUp'
+          responses:
+            201:
+              description: Admin can create an employee user account.
+
+definitions:
+  signUp:
+    type: object
+    properties:
+      adminEmail:
+        type: string
+      adminPassword:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+      gender:
+        type: string
+      jobRole:
+        type: string
+      department:
+        type: string
+      address:
+        type: string
+      is_admin:
+        type: string

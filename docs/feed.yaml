@@ -1,0 +1,24 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /feed:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Get all articles
+      summary: Employees can view all articles in descending order.
+      produces:
+      - application/json
+      responses:
+          200:
+            description: Employees can view all articles in descending order.
+

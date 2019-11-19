@@ -1,0 +1,44 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /articles/{id}/comment:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Comment on other colleagues article post
+      summary: Employees can comment on other colleagues article post.
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: Article comment
+          description: Employees can comment on other colleagues article post.
+          required: false
+          schema:
+            $ref: '#/definitions/commentArticle'
+      responses:
+          201:
+            description: Employees can comment on other colleagues article post.
+definitions:
+  commentArticle:
+    type: object
+    properties:
+      comment:
+        type: string
+      employee_id:
+        type: integer
+
