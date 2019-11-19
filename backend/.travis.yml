@@ -2,8 +2,11 @@ sudo: false
 
 language: node_js
 
-install:
-  - npm ci
+node_js:
+  - "stable"
+ 
+before_script: cd backend
 
-script:
-  - npm test
+cache:
+  directories:
+    - "node_modules"

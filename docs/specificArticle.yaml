@@ -1,0 +1,28 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /articles/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Get a specific article
+      summary: Employees can view a specific article.
+      produces:
+      - application/json
+      responses:
+          200:
+            description: Employees can view a specific article.

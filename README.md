@@ -8,23 +8,26 @@ Teamwork is an ​ internal social network for employees of an organization. The
 Method | Endpoint | Function |
 | ------ | -------------| --------------- |
 |ADMIN| . |   .   |
-|POST| `/api/v1/admin/register` | sign up. |
-|POST| `/api/v1/admin/login` | sign in. |
-|POST| `/api/v1/admin/newemployee` | create employee account. |
-|GET| `/api/v1/flags` | view all reported post. |
-|DELETE| `/api/v1/flag` | delete flaged post. |
+|POST| `/api/v1/auth/create-user` | Admin can create an employee user account. |
+|POST| `/api/v1/auth/signin` | Admin/Employees can sign in. |
+|GET| `/api/v1/flags` | Admin can view all reported post. |
+|DELETE| `/api/v1/flag` | Admin can delete flaged post. |
 |EMPLOYEE| . |   .   |
-|POST| `/api/v1/articles` | create an article. |
-|POST| `/api/v1/gifs` | create a gif. |
-|PATCH| `/api/v1/articles/<articleId>` | Edit an article. |
-|DELETE| `/api/v1/articles/<articleId>` | Delete an article. |
-|DELETE| `/api/v1/gifs/<gifId>` | Delete a gif. |
-|POST| `/api/v1/articles/<articleId>/comment` | comment on an article. |
-|POST| `/api/v1/gifs/<gifId>/comment` | comment on a gif. |
-|GET| `/api/v1/feed` | view all articles. |
-|GET| `/api/v1/article/<articleId>` | view a specific article. |
-|GET| `/api/v1/gif/<gifId>` | view a specific gif. |
-|GET| `/api/v1/feed/search?category={category}` | view similar articles. |
-|POST| `/api/v1/articles/<articleId>/flag` | Flag article as inappropriate. |
-|POST| `/api/v1/gifs/<gifId>/flag` | Flag gif as inappropriate. |
+|POST| `/api/v1/articles` | Employees can write and post articles. |
+|POST| `/api/v1/gifs` | Employees can post gifs. |
+|PATCH| `/api/v1/articles/<articleId>` |Employees can edit their articles. |
+|DELETE| `/api/v1/articles/<articleId>` | Employees can delete their articles. |
+|DELETE| `/api/v1/gifs/<gifId>` | Employees can delete their gifs post. |
+|POST| `/api/v1/articles/<articleId>/comment` |Employees can comment on other colleagues' article post. |
+|POST| `/api/v1/gifs/<gifId>/comment` | Employees can comment on other colleagues' gif post. |
+|GET| `/api/v1/feed` |  Employees can view all articles in descending order. |
+|GET| `/api/v1/article/<articleId>` | Employees can view a specific article. |
+|GET| `/api/v1/gif/<gifId>` | Employees can view a specific gif post. |
+|GET| `/api/v1/feed/search?category={category}` |  Employees can view all articles that belong to a category (tag). |
+|POST| `/api/v1/articles/<articleId>/flag` | Employees can flag an article as inappropriat |
+|POST| `/api/v1/gifs/<gifId>/flag` | Employees can flag a gif as inappropriat |
 
+
+## Testing
+
+First, you will need to run postman

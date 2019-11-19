@@ -1,0 +1,45 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /gifs/{id}/flag:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Flag a Gif post
+      summary: Employees can flag a gif as inappropriate.
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: Flag a Gif post
+          description: Employees can flag a gif as inappropriate.
+          required: false
+          schema:
+            $ref: '#/definitions/flagGif'
+      responses:
+          201:
+            description: Employees can flag a gif as inappropriate.
+
+definitions:
+  flagGif:
+    type: object
+    properties:
+      comment:
+        type: string
+      employee_id:
+        type: integer
+

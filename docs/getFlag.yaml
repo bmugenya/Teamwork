@@ -1,0 +1,23 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /flags:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Get all reported post
+      summary: Get all reported post
+      produces:
+      - application/json
+      responses:
+          200:
+            description: Get all reported post

@@ -1,0 +1,40 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /flag:
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Delete reported post.
+      summary: Employees can delete reported post.
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: Delete Article
+          description: Employees can delete reported post.
+          required: false
+          schema:
+            $ref: '#/definitions/deleteFlag'
+      responses:
+          200:
+            description: Admin can delete reported post.
+
+definitions:
+  deleteFlag:
+    type: object
+    properties:
+      type:
+        type: string
+      type_id:
+        type: integer
+

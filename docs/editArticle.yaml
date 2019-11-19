@@ -1,0 +1,46 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+    description: Enter bearer token in the format **Bearer &lt;token>**
+
+security:
+  - bearerAuth: []
+
+paths:
+  /articles/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+    patch:
+      security:
+        - Bearer: []
+      tags:
+        - Update an article
+      summary: Employees can edit their articles.
+      produces:
+      - application/json
+      parameters:
+        - in: body
+          name: Update an article
+          description: Employees can edit their articles.
+          required: false
+          schema:
+            $ref: '#/definitions/editArticle'
+      responses:
+          200:
+            description: Employees can edit their articles.
+definitions:
+  editArticle:
+    type: object
+    properties:
+      title:
+        type: string
+      article:
+        type: string
+      employee_id:
+        type: integer
+
